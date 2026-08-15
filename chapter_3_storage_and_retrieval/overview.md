@@ -16,8 +16,9 @@ Query: "give me the record where id = 42"
 * **Clustered Index**: The value of the key-value pair index is the actual data. ([[Indexes#^clustered-index]])
 * **Covering Index / Index with included columns**: Compromise between clustered and nonclustered index. It stores some o the tables columns within the index. [[Indexes#^covering-index]]
 
- ![[secondary_index_example.png]]
-![Image showing secondary index and how they point to heap file](secondary_index_example.png)
+![Image showing secondary index and how they point to heap file](secondary_index_heap_file.png)
+
+![Image showing secondary index that is a clustered index](secondary_clustered_index.png)
 
 **Multi-column index**:
 
