@@ -34,7 +34,9 @@ Query: "give me the record where id = 42"
 
 **Non-volatile Memory (NVM)**: 
 
+**Online Transaction Processing (OLTP)**: 
 
+**Online Analytic Processing (OLAP)**:
 
 
 
