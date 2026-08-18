@@ -34,10 +34,11 @@ Query: "give me the record where id = 42"
 
 **Non-volatile Memory (NVM)**: 
 
-**Online Transaction Processing (OLTP)**: 
+**Online Transaction Processing (OLTP)**: read and writes small number of records. Data represents latest state of data (current point in time). 
+* The term comes from the early days where databases were used to process commercial transactions such as sales, products, blog posts.
 
-**Online Analytic Processing (OLAP)**:
-
+**Online Analytic Processing (OLAP)**: Read and writes large amounts of data, usually with the purpose of providing business intelligence and help support/make business decisions
+* OLAP usually deals with aggregations and analytics on OLTP data. They help answer questions like "what was our total revenue last year from selling XYZ?".
 
 
 
