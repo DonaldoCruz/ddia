@@ -40,5 +40,11 @@ Query: "give me the record where id = 42"
 **Online Analytic Processing (OLAP)**: Read and writes large amounts of data, usually with the purpose of providing business intelligence and help support/make business decisions
 * OLAP usually deals with aggregations and analytics on OLTP data. They help answer questions like "what was our total revenue last year from selling XYZ?".
 
+**Data Warehouse**: nowadays big companies use different databases for different purposes. One for OLTP transactions and another for OLAP (analytics) processes. 
+* Data warehouses usually have more compute power and usually have [[Column-Oriented Storage]]. 
+* Data modeling in data warehouses are usually based off of the **star schema/dimensional modeling** and the **snowflake schema**
+	* **Star schema**: Made up of fact tables and dimension tables. **Fact tables** are tables whose rows represent an event/transaction that happened. **Dimension tables** on the other hand are tables the contain metadata/descriptive data on those events in the  fact tables. Dimension tables answer the who/what/where/when of events.
 
+**Vectorized processing**: Essentially column level operations on compressed column data, kinda like how you can perform operation between two columns in Pandas.
 
+**Column families**: Essentially data is stored row-oriented and this term is very misleading. They store all columns from a row together, along with a row key, and they do not use column compression.  It is mostly row-oriented.
