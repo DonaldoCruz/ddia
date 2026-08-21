@@ -54,6 +54,6 @@ Query: "give me the record where id = 42"
 ![Image showing start schema data model](star_schema.png)
 
 
-**Vectorized processing**: Essentially column level operations on compressed column data, kinda like how you can perform operation between two columns in Pandas.
+**Vectorized processing**: It's just taking a chunk of data in a column-oriented database, and passing it to the CPU to perform opertions on that data in parallel
 
 **Column families**: Essentially data is stored row-oriented and this term is very misleading. They store all columns from a row together, along with a row key, and they do not use column compression.  It is mostly row-oriented.
