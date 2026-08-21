@@ -57,3 +57,7 @@ Query: "give me the record where id = 42"
 **Vectorized processing**: It's just taking a chunk of data in a column-oriented database, and passing it to the CPU to perform opertions on that data in parallel
 
 **Column families**: Essentially data is stored row-oriented and this term is very misleading. They store all columns from a row together, along with a row key, and they do not use column compression.  It is mostly row-oriented.
+
+**Materialized views**: A copy of the data returned by a query. The difference between materialized views and virtual views is that virtual views essentially rerun the query every time you want to see the virtual view. Materialized views, on the other hand, copy the data returned by a query. Whenever you want to update a materialized view, you have to execute the query and copy the data.
+
+**Data Cubes**: A multi-dimensional grid where each axis is some dimension, and the individual cells represent an aggregate. The cell contain precomputed aggregates.
