@@ -44,14 +44,14 @@ Query: "give me the record where id = 42"
 * Data warehouses usually have more compute power and usually have [[Column-Oriented Storage]]. 
 
 **Example of column-oriented storage v.s. row-oriented**
-![Image showing row v.s. column oriented storage](row_vs_column_oriented_storage_layout.png)
+![Image showing row v.s. column oriented storage](images/row_vs_column_oriented_storage_layout.png)
 
 * Data modeling in data warehouses are usually based off of the **star schema/dimensional modeling** and the **snowflake schema**
 	* **Star schema**: Made up of fact tables and dimension tables. **Fact tables** are tables whose rows represent an event/transaction that happened. **Dimension tables** on the other hand are tables the contain metadata/descriptive data on those events in the  fact tables. Dimension tables answer the who/what/where/when of events.
     * **Snowflake schema**: more or less the same as a star schema just that the dimension tables have sub-dimension tables.
 
 **Example of star schema model**
-![Image showing start schema data model](star_schema.png)
+![Image showing start schema data model](images/star_schema.png)
 
 
 **Vectorized processing**: It's just taking a chunk of data in a column-oriented database, and passing it to the CPU to perform opertions on that data in parallel
