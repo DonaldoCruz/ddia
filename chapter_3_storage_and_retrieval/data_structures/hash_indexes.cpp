@@ -16,7 +16,6 @@ int main() {
     std::cin >> data;
 
     std::string ex = get(data);
-    std::cout << "get function output:" + ex;
     return 0;
 }
 

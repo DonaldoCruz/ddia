@@ -12,7 +12,7 @@
     * There exists language specific encoding format but they are not reliable because a different programming languague would have trouble decoding/deserializing/unmarshalling 
     that encoded data. This is where standard encoding formats come in. (e.g., python=pickle, java=java.io.Serializable, ruby=Marshal)
 
-    * This where standardized encoding come in. Encoding formats like JSON, XML, CSV are textual formats, making them somewhat human readable.
+    * This is where standardized encoding come in. Encoding formats like JSON, XML, CSV are textual formats, making them somewhat human readable.
         * Each format has its own pros and cons. XML and CSV lack the ability to differentiate between numbers and strings that happen to consist of digits (e.g., "123").
         * JSON on the other hand is able to distinguish between numbers and strings, but it cannot distinguish between integers and floating-point numbers, and doesn't specify a precision.
         This is a big problem when dealing with big numbers because they become inaccurate.
@@ -23,3 +23,48 @@
         are not human-readable.
 
 
+    ### Binary Encodings
+
+    * **Protocol Buffers**: Developed by Google, it is a binary encoding format.
+        ```
+        message Person {
+            required string user_name           = 1;
+            optional int64 favorite_number      = 2;
+            repeated string interests           = 3;
+        }
+        ```
+
+    * **Thrift**: Developed by Facebook. Has two different encoding formats, BinaryProtocol and CompactProtocol
+        ```
+        struct Person {
+            1: required string      user_name,
+            2: optional int64       favorite_number,
+            3: repeated string      interests
+        }
+        ```
+    * Protocol Buffers and Thrist protocols use field tags as opposed to storing field names. Field tags are just integers that map to the field names.
+
+    * **Avro**: Started as a subproject of Hadoop because of the incompatibility Thrift had in Hadoop. Avro has two different schema languages, Avro IDL and JSON. Avro IDL
+    is meant to be more human readable while the JSON schema of avro is meant to be more machine readable.
+
+        Avro IDL Example
+        ```
+        record Person {
+            string                  username;
+            union { null, long }    favoriteNumber = null;
+            array<string>           interests;
+        }
+        ```
+
+        Avro JSON schema
+        ```JSON
+        {
+            "type": "record",
+            "name": "Person",
+            "fields": {
+                {"name": "username",        "type": "string"},
+                {"name": "favoriteNumber",  "type": [ "null", "long" ], "default": null},
+                {"name": "interests",       "type": { "type": "array", "items": "string"}},
+            }
+        }
+        ```
