@@ -68,3 +68,11 @@
             }
         }
         ```
+
+        * Avro uses variable length encoding, along with zigzag encoding. I am not too familiar with these encoding methods.
+        * **Schema evolution in Avro**: Applications using Avro must have two schemas, one at the writer (encoder), and one at the reader (decoder).
+            * If a field is missing in the reader schema that the writer schema has, it just ignores it.
+            * If a field expected by the reader schema is missing that the writer schema does not populate, it just assigns the default value to it.
+
+            * **Forward compatibility**: It means that writers have a new schema while readers have the old schema.
+            * **Backward compatibility**: It means that writers have an old schema while readers have the new schema.
