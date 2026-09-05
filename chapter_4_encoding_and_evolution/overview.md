@@ -76,3 +76,7 @@
 
             * **Forward compatibility**: It means that writers have a new schema while readers have the old schema.
             * **Backward compatibility**: It means that writers have an old schema while readers have the new schema.
+
+            * Schema evolution is Avro is dynamic, and can be done easily. The only thing that updates are the schemas on the writer, and a conversion is done when writing
+            with the new schema.
+
