@@ -80,3 +80,6 @@
             * Schema evolution is Avro is dynamic, and can be done easily. The only thing that updates are the schemas on the writer, and a conversion is done when writing
             with the new schema.
 
+    * **Code Generation**: Thrift and Protocol Buffers rely on code generation after a schema has been defined to implement the schema. It usefule to choose a 
+    statically typed programming language like C++ or Java because it allows efficient in-memory structures to be used for decoded data and allows for type checking
+    and autocompletion in IDEs when writing programs that use those data structures.
