@@ -91,3 +91,9 @@
         * For statically typed programming languages, the ability to generate code from the schema is very useful.
         * Much simpler than text encodings.
         * Schema evolution allows for the same flexibility/schemaless/schema-on-read as JSON databases that contain the document data model.
+
+## Dataflows
+
+    ### Dataflows through databases
+    
+    ### Dataflow through services: REST & RPC
