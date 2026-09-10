@@ -83,3 +83,11 @@
     * **Code Generation**: Thrift and Protocol Buffers rely on code generation after a schema has been defined to implement the schema. It usefule to choose a 
     statically typed programming language like C++ or Java because it allows efficient in-memory structures to be used for decoded data and allows for type checking
     and autocompletion in IDEs when writing programs that use those data structures.
+
+    * Benefits of Binary encodings:
+        * More compact than text encoding like XML, JSON, etc.
+        * Schema is valid documentation as it is required to encode and decode, and must be up to date for it to work correctly.
+        * Storing schemas allows for forward and backward compatibility.
+        * For statically typed programming languages, the ability to generate code from the schema is very useful.
+        * Much simpler than text encodings.
+        * Schema evolution allows for the same flexibility/schemaless/schema-on-read as JSON databases that contain the document data model.
