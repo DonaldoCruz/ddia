@@ -99,3 +99,5 @@
     ### Dataflow through services: REST & RPC
 
     ### Message-Passing Dataflow
+        * **REST**:
+        * **RPC**:
