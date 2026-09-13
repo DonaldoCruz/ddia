@@ -95,9 +95,27 @@
 ## Dataflows
 
     ### Dataflows through databases
+        ** Your applications is in-charge of encoding and sending the data to the database, and also retrieving the data from the database and decoding it in your application.
     
     ### Dataflow through services: REST & RPC
+        * **HTTP** is a network protocol that allows clients to interact with other services be via the web, or tools like curl.
+        * **REST** is more of a design philosophy. APIs that are designed this way are called restful.
+        * **SOAP** is an XML-based protocol and is commonly used over HTTP. It is a bit less readable and has different guidelines of creation than REST. It is more strict
+        and it tries to be independent from HTTP.
+            * **Web Services Description Language (WSDL)**: enables code generation so that a client of a SOAP API is able to use the remote service using local classes and functions.
+        * **Remote Procedure Calls (RPC)**: This paradigm essentially allows for clients to use remote functions from the same organization or a different one.
+        RPC aims to allow applications to use remote tools/functions/objects just like if they were within the applications.
+            * Problems:
+                * Over the network travel is required. Sending data over the network is not too reliable as it can drop out of nowhere, services may return invalid responses or no response, etc.
+                * Time it takes to call and execute the RPC varies a lot, as opposed to having it locally, you could call a function and it will generally take the same ammount of time executing.
 
     ### Message-Passing Dataflow
-        * **REST**:
-        * **RPC**:
+        * **Queues**: a place where a sender sends data and it is stored temporarily.
+        * **Topics**: Kind of like a queue but a topic has subscribers who get the data sent to the topic.
+        * **Message broker**: In-charge of managing the sending/delivery of data to those queues or topics.
+            * Examples of message brokers
+                * Apache Kafka
+                * RabbitMQ
+        * This type of system allows for reliability of a process receiving a message, as opposed to it getting lost. It allows for an asynchronous processing of data.
+        * **Actor model**: programming model  for concurrency in a single process. This model is made up of ```actors``` which are essentially like nodes that process or send  data.
+
