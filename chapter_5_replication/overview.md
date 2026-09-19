@@ -28,3 +28,12 @@ it can request from the leader, all changes that happened from that failure poin
     with new writes. You can delete those old writes, but that could violate clients' durability expectations.
         * Github once has this problem, an old leader came back on a performed writes. The new leader has IDs that were lagging behind. This caused some users to 
         have access to other users' data.
+
+* **Statement-based replication**: The whole INSERT, UPDATE, DELETE SQL statement is sent to follower and executed on those machines.
+    * The issues that arise with this is that nondeterministic statements like ROW(), RAND(), NOW(), will have different values from node-to-node.
+* **Write-ahead log (WAL) shipping**: A log is passed to followers, It is very closely coupled to the storage engine because the log stores the changes byte for byte.
+    * An issue that arises with this is the difficulty you can have when trying to upgrade your nodes to a new version of the storage engine because the data will be different.
+* **Logical (row-based) log replication**: Decouples the replication log from the storage engine. Allows for an easier time with backward compatibility (compared to WAL shipping)
+it also allows for an easier time with **change data capture (CDC)**.
+* **Trigger-based replication**: Some automated trigger on the database like stored procedures or triggers, sends data changes to a table. Then an external process
+can read from that table and apply applicationlogic and replicate the data change to another system.
