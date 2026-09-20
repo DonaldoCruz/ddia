@@ -37,3 +37,8 @@ it can request from the leader, all changes that happened from that failure poin
 it also allows for an easier time with **change data capture (CDC)**.
 * **Trigger-based replication**: Some automated trigger on the database like stored procedures or triggers, sends data changes to a table. Then an external process
 can read from that table and apply applicationlogic and replicate the data change to another system.
+* **Replication lag**: This refers to the delay that happens when the leader sends the write to the follower. A useful setup is for the leader to accept write requests, and any
+read requests go to the followers. This is called read-scaling, and if a system requires more reads/ many read requests, you can use many followers for read only requests.
+    * The problem with this is that sometimes followers can fall behind, specially if it is a synchronous system. In a synchronous system, a failure can cause the whole system
+    to go down for some time.
+    * In an asynchronous setup, followers can fall behind, so data can be inconsistent if the delay is great. This is called **eventual consistency**.
