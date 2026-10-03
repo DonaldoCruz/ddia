@@ -41,6 +41,11 @@ int main() {
         {"BLUE", "#0000FF"}
     };
 
+    // Making a lambda function that will allow us to print the contents of a map.
+    auto print_key_values = [](const auto& key, const auto& value) {
+        std::cout << "Key:[" << key << "] Value:[" << value << "]\n";
+    };
+
 
 //    std::string data;
 //    std::getline(std::cin, data);
