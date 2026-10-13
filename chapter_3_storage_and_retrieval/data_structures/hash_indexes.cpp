@@ -8,19 +8,48 @@
 
 // using namespace std; // This is adding the "std" namespace to the list of namespaces that the compiler searches for names in. We are currently in the global namespace.
 
-std::string get(std::string data) {
-    std::string msg = "You are in the 'get' function.\nYou provided the following data:" + data;
-    std::cout << msg;
-    return msg;
-}
+char* get(std::string filename, std::string key, std::unordered_map<std::string, int> index) {
+    // Declaring variables
+    std::streampos position; 
+    uint32_t key_size;
+    uint32_t value_size;
+    char* value = new char();
 
-int put(std::string filename, std::string key, std::string value) {
+    // step 0: Open file in input mode.
+    std::ifstream file;
+    file.open(filename);
+
+    // Step 1: In the hash index, find the key, it returns the position in the file
+    position = index[key];
+    std::cout << "Position for key: " << position << std::endl;
+
+    // Step 2: Go to that position in the file
+    file.seekg(position);
+
+    // step 3: read 4 bytes, gives you key size, read 4 more bytes, it gives you the value size
+    file.read(reinterpret_cast<char*>(&key_size), sizeof(key_size));
+    std::cout << "Key size Value (bytes): " << key_size << std::endl;
+    
+    // step 4: move past key size position onto the beginning of value size..
+    file.read(reinterpret_cast<char*>(&value_size), sizeof(value_size));
+    std::cout << "Value size Value (bytes): " << value_size << std::endl;
+
+    // step 5: move past key value
+    file.seekg(key_size, std::ios_base::cur);
+
+    // step 6: Move past key
+    file.read(value, value_size);
+    std::cout << "value inside get: " << value << std::endl;
+
+    return value;
+}
+std::streampos put(std::string filename, std::string key, std::string value) {
     std::ofstream file; // Stream that we will write the data to. Output streams go like: Stream buffer (RAM) -> flush -> OS -> file/terminal/network/etc
     // Input streams go like: OS -> buffer (RAM) -> flush -> RAM(variable in different location)
     file.open(filename, std::ofstream::app | std::ofstream::binary);
 
     // Getting position before write, since it will tell us where the value that we are searching for begins.
-    int position = file.tellp();
+    std::streampos position = file.tellp();
 
     uint32_t key_size = key.size();
     uint32_t value_size = value.size();
@@ -44,13 +73,33 @@ int put(std::string filename, std::string key, std::string value) {
 }
 
 // Used to rebuild the index on startup.
-void rebuild_index() {
+std::unordered_map<std::string, std::streampos> rebuild_index(std::string index_name) {
+    std::ifstream file;
+    std::streampos current_position;
+    std::streampos end_position;
+
+    // Opening file.
+    file.open(index_name);
+
+    // Getting last position.
+    end_position = file.seekg(0, std::ios_base::end);
+    std::cout << "end position: " << end_position;
+
+    // The order is [key_size(4 bytes, unsigned 32 bit int)][value_size(4 bytes, unsigned 32 bit int)][key_value][value]
+
+    for (std::streampos start; start != end_position; start = file.tellg()) {
+        std::streampos cur = file; // Get current position in file
+    }
+
+
+    
+
+
 }
 
 int main() {
-    std::hash<std::string> key_hasher;
     std::unordered_map<std::string, int> index; // Represents the index in RAM.
-    //
+
     // Making a lambda function that will allow us to print the contents of a map.
     auto print_key_values = [](const auto& key, const auto& value) {
         std::cout << "Key:[" << key << "] Value:[" << value << "]\n";
@@ -71,7 +120,14 @@ int main() {
     for (const auto& [index_key, index_value] : index) {
         print_key_values(index_key, index_value);
     }
+
+    /* Retrieval portion*/
+
+    char* my_value = get("test.log", key, index);
+    std::cout << "My Final value, index Finished: " << my_value << std::endl;
     
+    delete my_value;
+    std::cout << "value should be garbage: " << my_value << std::endl;
 
 //    std::cout << "ofstream app: " << std::ofstream::app;
 //    std::cout << "\nofstream binary: " << std::ofstream::binary;
@@ -79,8 +135,6 @@ int main() {
 //    int result = std::ofstream::app | std::ofstream::binary;
 //    std::cout << "\nbitwise OR: " << result;
 
-
-    // std::string ex = get(data);
     return 0;
 }
 
