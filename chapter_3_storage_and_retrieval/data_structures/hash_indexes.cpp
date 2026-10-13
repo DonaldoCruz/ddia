@@ -73,25 +73,49 @@ std::streampos put(std::string filename, std::string key, std::string value) {
 }
 
 // Used to rebuild the index on startup.
-std::unordered_map<std::string, std::streampos> rebuild_index(std::string index_name) {
+std::unordered_map<std::string, std::streampos> rebuild_index(std::string file_name) {
     std::ifstream file;
     std::streampos current_position;
     std::streampos end_position;
+    std::unordered_map<std::string, std::streampos> index;
 
     // Opening file.
-    file.open(index_name);
+    file.open(file_name);
 
     // Getting last position.
-    end_position = file.seekg(0, std::ios_base::end);
-    std::cout << "end position: " << end_position;
+    file.seekg(0, std::ios_base::end);
+    end_position = file.tellg();
+    std::cout << "end position: " << end_position << std::endl;
+    
+    // Going to beginning position
+    file.seekg(0, std::ios_base::beg);
+    
 
     // The order is [key_size(4 bytes, unsigned 32 bit int)][value_size(4 bytes, unsigned 32 bit int)][key_value][value]
 
-    for (std::streampos start; start != end_position; start = file.tellg()) {
-        std::streampos cur = file; // Get current position in file
+    for (std::streampos position = file.tellg(); position != end_position; position = file.tellg()) {
+        uint32_t key_size;
+        uint32_t value_size;
+
+        file.read(reinterpret_cast<char*>(&key_size), sizeof(uint32_t));
+        file.read(reinterpret_cast<char*>(&value_size), sizeof(uint32_t));
+        
+        // Get actual key.
+        std::string key (key_size, '\0');
+        file.read(key.data(), key_size);
+        std::cout << "Key size: " << key_size << ", Key Value:" << key << std::endl;
+        std::cout << "Value size: " << value_size << std::endl;
+
+        // Skip value
+        file.seekg(value_size, std::ios_base::cur);
+
+        // Populate index.
+        index[key] = position;
+        std::cout << "Key: " << key << ", Position: " << position << std::endl; 
+
     }
-
-
+    
+    return index;
     
 
 
@@ -105,36 +129,34 @@ int main() {
         std::cout << "Key:[" << key << "] Value:[" << value << "]\n";
     };
 
-    std::string key;
-    std::cout << "Enter key: ";
-    std::getline(std::cin, key);
-    std::cout << std::endl;
-
-    std::string data;
-    std::getline(std::cin, data);
-    int position = put("test.log", key, data);
-
-    std::cout << "Position before write is: " << position << std::endl;
-    index[key] = position;
-
-    for (const auto& [index_key, index_value] : index) {
-        print_key_values(index_key, index_value);
-    }
-
-    /* Retrieval portion*/
-
-    char* my_value = get("test.log", key, index);
-    std::cout << "My Final value, index Finished: " << my_value << std::endl;
-    
-    delete my_value;
-    std::cout << "value should be garbage: " << my_value << std::endl;
-
-//    std::cout << "ofstream app: " << std::ofstream::app;
-//    std::cout << "\nofstream binary: " << std::ofstream::binary;
+//    std::string key;
+//    std::cout << "Enter key: ";
+//    std::getline(std::cin, key);
+//    std::cout << std::endl;
 //
-//    int result = std::ofstream::app | std::ofstream::binary;
-//    std::cout << "\nbitwise OR: " << result;
+//    std::string data;
+//    std::getline(std::cin, data);
+//    int position = put("test.log", key, data);
+//
+//    std::cout << "Position before write is: " << position << std::endl;
+//    index[key] = position;
+//
+//    for (const auto& [index_key, index_value] : index) {
+//        print_key_values(index_key, index_value);
+//    }
+//
+//    /* Retrieval portion*/
+//
+//    char* my_value = get("test.log", key, index);
+//    std::cout << "My Final value, index Finished: " << my_value << std::endl;
+//    
+//    delete my_value;
+//    std::cout << "value should be garbage: " << my_value << std::endl;
 
+    std::unordered_map<std::string, std::streampos> new_index = rebuild_index("test.log");
+    for (const auto& [index_key, index_value] : new_index) {
+       print_key_values(index_key, index_value);
+    }
     return 0;
 }
 
