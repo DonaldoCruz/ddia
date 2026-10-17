@@ -42,3 +42,6 @@ read requests go to the followers. This is called read-scaling, and if a system 
     * The problem with this is that sometimes followers can fall behind, specially if it is a synchronous system. In a synchronous system, a failure can cause the whole system
     to go down for some time.
     * In an asynchronous setup, followers can fall behind, so data can be inconsistent if the delay is great. This is called **eventual consistency**.
+
+* **Monotonic reads**: Just means that a if a user makes sequential requests,, they will not see time backwards. The requests will most likely go to the same replica.
+* **Consistent prefix reads**: Just means that if writes happened in a certain order, they will be read in that order.
