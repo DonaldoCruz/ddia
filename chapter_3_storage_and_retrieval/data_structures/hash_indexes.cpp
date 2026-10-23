@@ -8,12 +8,11 @@
 
 // using namespace std; // This is adding the "std" namespace to the list of namespaces that the compiler searches for names in. We are currently in the global namespace.
 
-char* get(std::string filename, std::string key, std::unordered_map<std::string, int> index) {
+std::string get(std::string filename, std::string key, std::unordered_map<std::string, std::streampos> index) {
     // Declaring variables
     std::streampos position; 
     uint32_t key_size;
     uint32_t value_size;
-    char* value = new char();
 
     // step 0: Open file in input mode.
     std::ifstream file;
@@ -38,7 +37,8 @@ char* get(std::string filename, std::string key, std::unordered_map<std::string,
     file.seekg(key_size, std::ios_base::cur);
 
     // step 6: Move past key
-    file.read(value, value_size);
+    std::string value(value_size, '\0');
+    file.read(value.data(), value_size);
     std::cout << "value inside get: " << value << std::endl;
 
     return value;
@@ -157,6 +157,9 @@ int main() {
     for (const auto& [index_key, index_value] : new_index) {
        print_key_values(index_key, index_value);
     }
+
+    std::string val = get("test.log", "Kiara", new_index);
+    std::cout << "Val from index is: " << val << std::endl;
     return 0;
 }
 
