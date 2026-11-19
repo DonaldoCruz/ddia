@@ -45,3 +45,16 @@ read requests go to the followers. This is called read-scaling, and if a system 
 
 * **Monotonic reads**: Just means that a if a user makes sequential requests,, they will not see time backwards. The requests will most likely go to the same replica.
 * **Consistent prefix reads**: Just means that if writes happened in a certain order, they will be read in that order.
+
+### Conflict Resolution
+* Single leader databases do not have the problem of write conflict. All writes go through one leader.
+* The problem occurs on multi-leader databases, where multiple users can write at the same time causing data inconsistencies.
+* Some ways to resolve that is to process writes sequentially and not mark a transaction as complete until the data is replicated on all leaders. This defeats the purpose of 
+  multi-leader setups because writes are essentially sequential.
+* Sometimes we try to avoid conflicts all together by:
+    * routing requests to datacenters that are geographically closest to the user.
+* **Custom conflict resolution** "on write" or "on read" can prevent conflicts by executing some code on write or on read.
+* Some other ways to resolve conflicts are: 
+    * **Conflict-free Replicated Data Structures (CRDTs)**: family of data structures that can be concurrently edited.
+    * **Mergeable persistent data structures**: tracks history explicitly. (like a git version control system)
+    * **Operational transformation**: designed for concurrent editing of ordered list of items. (Google docs, Etherpad)
