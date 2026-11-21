@@ -58,3 +58,12 @@ read requests go to the followers. This is called read-scaling, and if a system 
     * **Conflict-free Replicated Data Structures (CRDTs)**: family of data structures that can be concurrently edited.
     * **Mergeable persistent data structures**: tracks history explicitly. (like a git version control system)
     * **Operational transformation**: designed for concurrent editing of ordered list of items. (Google docs, Etherpad)
+
+#### Multi-Leader Replication Topologies
+* **Definition:** It just describes the communication paths along which writes are propagated.
+* Examples: 
+    * Circular Topology: Writes are forwarded to other leaders and a leader ID can be sent with the write to show which leaders have processed the write.
+    * Start Topology: One central leader forwards to other leaders.
+    * All-to-all Topology: All leaders send to each other.
+
+* **Version Vectors:** used to order events correctly.
